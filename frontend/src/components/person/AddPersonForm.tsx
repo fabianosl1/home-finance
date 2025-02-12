@@ -1,18 +1,18 @@
 
 import { useForm, Controller } from "react-hook-form";
-import { VStack,  Input, NumberInputRoot, useDialog, Button } from "@chakra-ui/react";
-import { NumberInputField } from "../ui/number-input";
+import { VStack,  Input, useDialog, Button } from "@chakra-ui/react";
+import { NumberInputField,NumberInputRoot } from "../ui/number-input";
 import { Field } from "../ui/field";
 import SaveDialog from "../SaveDialog";
 import { CreatePersonRequest } from "@/types/Person";
 import { PersonService } from "@/services/PersonService";
 
 const defaultValues: CreatePersonRequest = {
-    age: 0,
+    age: 23,
     name: ""
 }
 export default function AddPersonForm() {
-    const dialog = useDialog({id: "add-person"})
+    const dialog = useDialog()
 
     const {handleSubmit, control, reset} = useForm<CreatePersonRequest>({
         defaultValues: defaultValues
@@ -38,12 +38,11 @@ export default function AddPersonForm() {
                     <Controller 
                         name="name"
                         control={control}
-                        render={({field: {onChange, onBlur, value}}) => (
+                        render={({field: {onChange}}) => (
                             <Input 
-                                placeholder="Nome" 
-                                value={value} 
+                                placeholder="Nome"                                 
                                 onChange={onChange}
-                                onBlur={onBlur}
+                                
                             />
                         )}
                     />            
@@ -52,12 +51,11 @@ export default function AddPersonForm() {
                         <Controller 
                             name="age" 
                             control={control}
-                            render={({field: {onChange, onBlur, value}}) => (
+                            render={({field: {onChange, value}}) => (
                                 <NumberInputRoot                             
                                     width="72px" 
                                     onChange={onChange}
-                                    onBlur={onBlur}
-                                    value={value.toString()}
+                                    defaultValue={value.toString()}                                    
                                 >
                                     <NumberInputField />
                                 </NumberInputRoot>

@@ -1,19 +1,9 @@
 import { Tabs } from "@chakra-ui/react";
-import TableTransactions from "./transaction/TableTransactions";
-
-import { useEffect, useState } from "react";
-import { TransactionService } from "@/services/TransactionService";
-import { TransactionResponse } from "@/types/Transaction";
-
 import Person from "./person/Person";
+import Transaction from "./transaction/Transaction";
 
 export default function Wrapper() {
-    const [transactions, setTransactions] = useState<TransactionResponse[]>([])
 
-    useEffect(() => {
-        TransactionService.listAll()
-        .then(({transactions}) => setTransactions(transactions))
-    },[])
     return (
       <>
         <Tabs.Root width="full" defaultValue="persons">
@@ -29,7 +19,7 @@ export default function Wrapper() {
                 <Person/>
             </Tabs.Content>
             <Tabs.Content value="transactions">
-                <TableTransactions transactions={transactions}/>
+                <Transaction />
             </Tabs.Content>
         </Tabs.Root>
       </>

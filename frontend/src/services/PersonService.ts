@@ -13,5 +13,9 @@ export class PersonService {
     static async save(person: CreatePersonRequest): Promise<CreatePersonResponse> {
         return await ApiService.post("/persons", person)
     }
+
+    static async delete(personId: number): Promise<void> {
+        await ApiService.delete("/persons/" + personId)
+    }
 }
 

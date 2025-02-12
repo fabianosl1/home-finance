@@ -31,6 +31,14 @@ export class ApiService {
 
         const response = await fetch(this.url + path, config);
 
-        return response.json();
+        if (response.status >= 400) {
+            const json = await response.json()
+            throw new Error(json.message ?? "Algo deu errado")
+        }
+
+       if (response.status !== 204)
+            return response.json();
+       
+       return {} as T
     }
 }

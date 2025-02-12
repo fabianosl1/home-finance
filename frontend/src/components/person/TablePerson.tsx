@@ -1,13 +1,29 @@
 import { PersonResponse } from "@/types/Person";
 import { formatCurrency } from "@/utils/Currency";
-import { Table } from "@chakra-ui/react";
+import { Table, useDialog } from "@chakra-ui/react";
 import PersonActionMenu from "./PersonActionMenu";
+import { useTransaction } from "../hooks/useTransaction";
+import DeleteDialog from "./DeleteDialog";
+import { PersonService } from "@/services/PersonService";
+import { useState } from "react";
 
 type Props = {
     persons: PersonResponse[]
 }
 
 export default function TablePersons({persons}: Props) {
+    const {openDialog} = useTransaction()
+    const deleteDialog = useDialog()
+    const [personToDelete, setPersonToDelete] = useState<number|null>(null)
+
+    const handlerDelete = async () => {
+        if (personToDelete) {
+            await PersonService.delete(personToDelete)
+            deleteDialog.setOpen(false)
+            setPersonToDelete(null)
+        }
+    }
+
     let incomes = 0;
     let expenses = 0;
 
@@ -17,9 +33,10 @@ export default function TablePersons({persons}: Props) {
     }
 
     const balance = incomes - expenses;
-
+    
     return(
-        <>
+        <>  
+            <DeleteDialog callback={handlerDelete} dialog={deleteDialog} />
             <Table.Root variant="outline">
                 <Table.Header>
                     <Table.Row>
@@ -43,7 +60,13 @@ export default function TablePersons({persons}: Props) {
                         <Table.Cell  textAlign="end">{formatCurrency(transactions.expenses)}</Table.Cell>
                         <Table.Cell  textAlign="end">{formatCurrency(transactions.balance)}</Table.Cell>
                         <Table.Cell  textAlign="end"  maxWidth="fit-content">
-                            <PersonActionMenu />
+                            <PersonActionMenu 
+                                handleAddTransaction={() => openDialog(id)} 
+                                handleToDelete={() => {
+                                    setPersonToDelete(id)
+                                    deleteDialog.setOpen(true)
+                                }}
+                            />
                         </Table.Cell>
                     </Table.Row>
                     ))}

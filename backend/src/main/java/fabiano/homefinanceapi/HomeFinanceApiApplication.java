@@ -3,7 +3,6 @@ package fabiano.homefinanceapi;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -20,8 +19,9 @@ public class HomeFinanceApiApplication {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry
-                    .addMapping("/**")
-                    .allowedOrigins("*");
+                        .addMapping("/**")
+                        .allowedMethods("GET", "POST", "DELETE", "OPTIONS")
+                        .allowedOrigins("*");
             }
         };
     }
