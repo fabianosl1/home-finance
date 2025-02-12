@@ -1,26 +1,39 @@
 package fabiano.homefinanceapi.services;
 
+import fabiano.homefinanceapi.dtos.CreateTransactionRequest;
 import fabiano.homefinanceapi.entities.Transaction;
 import fabiano.homefinanceapi.repositories.TransactionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class TransactionService {
+
     private final TransactionRepository transactionRepository;
 
-    public Transaction create() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    private final PersonService personService;
+
+    public Transaction create(long personId, CreateTransactionRequest createTransactionRequest) {
+        if (createTransactionRequest.getAmount() < 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Amount must be greater than 0");
+        }
+
+        if (createTransactionRequest.getDescription() == null || createTransactionRequest.getDescription().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Description cannot be empty");
+        }
+
+        var person = this.personService.findById(personId);
+        var transaction = createTransactionRequest.makeTransaction(person);
+
+        return transactionRepository.save(transaction);
     }
 
-    public void destroy(long id) {
-        this.transactionRepository.deleteById(id);
-    }
-
-    public List<Transaction> findAll() {
+    public List<Transaction> listAll() {
        return this.transactionRepository.all();
     }
 }
