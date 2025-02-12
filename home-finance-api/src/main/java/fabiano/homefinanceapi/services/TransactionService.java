@@ -4,6 +4,8 @@ import fabiano.homefinanceapi.dtos.CreateTransactionRequest;
 import fabiano.homefinanceapi.entities.Transaction;
 import fabiano.homefinanceapi.repositories.TransactionRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.util.Streamable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -34,6 +36,8 @@ public class TransactionService {
     }
 
     public List<Transaction> listAll() {
-       return this.transactionRepository.all();
+        var transactions = this.transactionRepository.findAll();
+
+        return Streamable.of(transactions).toList();
     }
 }

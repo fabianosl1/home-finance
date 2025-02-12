@@ -4,6 +4,8 @@ import fabiano.homefinanceapi.dtos.CreatePersonRequest;
 import fabiano.homefinanceapi.entities.Person;
 import fabiano.homefinanceapi.repositories.PersonRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.util.Streamable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -45,6 +47,8 @@ public class PersonService {
     }
 
     public List<Person> listAll() {
-        return personRepository.all();
+        var persons = this.personRepository.findAll();
+
+        return Streamable.of(persons).toList();
     }
 }
