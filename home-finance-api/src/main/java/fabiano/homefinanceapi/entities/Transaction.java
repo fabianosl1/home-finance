@@ -1,6 +1,5 @@
 package fabiano.homefinanceapi.entities;
 
-
 import fabiano.homefinanceapi.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.Getter;
