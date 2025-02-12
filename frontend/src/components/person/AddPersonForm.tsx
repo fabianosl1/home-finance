@@ -1,32 +1,37 @@
-import { CreatePersonRequest } from "@/types/Person";
+
 import { useForm, Controller } from "react-hook-form";
-import CreateDialog from "../AddDialog";
-import { VStack,  Input, NumberInputRoot } from "@chakra-ui/react";
+import { VStack,  Input, NumberInputRoot, useDialog, Button } from "@chakra-ui/react";
 import { NumberInputField } from "../ui/number-input";
 import { Field } from "../ui/field";
+import SaveDialog from "../SaveDialog";
+import { CreatePersonRequest } from "@/types/Person";
 import { PersonService } from "@/services/PersonService";
 
+const defaultValues: CreatePersonRequest = {
+    age: 0,
+    name: ""
+}
 export default function AddPersonForm() {
+    const dialog = useDialog({id: "add-person"})
+
     const {handleSubmit, control, reset} = useForm<CreatePersonRequest>({
-        defaultValues: {
-            age:13,
-            name: ""
-        }
+        defaultValues: defaultValues
     })
 
-    const handler = (data: CreatePersonRequest) => {
-        PersonService.save(data)
-        .then(() => reset({
-            age:13,
-            name: ""
-        }))
+    const handler = async (data: CreatePersonRequest) => {
+        await PersonService.save(data)
+        reset(defaultValues)
+        dialog.setOpen(false)
+        
     }
     return(
         <>
-            <CreateDialog 
-                handler={handleSubmit(handler)} 
-                buttonText="Adicionar pessoa" 
-                title="Pessoa"
+            <Button onClick={() => dialog.setOpen(true)} variant="outline">
+                Adicionar pessoa
+            </Button>
+            <SaveDialog 
+                dialog={dialog}
+                handler={handleSubmit(handler)}
             >
             <VStack gap={6}>
                 <Field label="Nome">
@@ -60,7 +65,7 @@ export default function AddPersonForm() {
                         />
                     </Field>
                 </VStack>
-            </CreateDialog>
+            </SaveDialog>
         </>
     );
 }

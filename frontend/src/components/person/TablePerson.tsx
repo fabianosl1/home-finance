@@ -1,6 +1,7 @@
 import { PersonResponse } from "@/types/Person";
 import { formatCurrency } from "@/utils/Currency";
 import { Table } from "@chakra-ui/react";
+import PersonActionMenu from "./PersonActionMenu";
 
 type Props = {
     persons: PersonResponse[]
@@ -28,6 +29,7 @@ export default function TablePersons({persons}: Props) {
                         <Table.ColumnHeader textAlign="end">Receita</Table.ColumnHeader>
                         <Table.ColumnHeader textAlign="end">Despesas</Table.ColumnHeader>
                         <Table.ColumnHeader textAlign="end">Balanço</Table.ColumnHeader>
+                        <Table.ColumnHeader  w={2}></Table.ColumnHeader>
                     </Table.Row>
                 </Table.Header>
 
@@ -40,6 +42,9 @@ export default function TablePersons({persons}: Props) {
                         <Table.Cell  textAlign="end">{formatCurrency(transactions.incomes)}</Table.Cell>
                         <Table.Cell  textAlign="end">{formatCurrency(transactions.expenses)}</Table.Cell>
                         <Table.Cell  textAlign="end">{formatCurrency(transactions.balance)}</Table.Cell>
+                        <Table.Cell  textAlign="end"  maxWidth="fit-content">
+                            <PersonActionMenu />
+                        </Table.Cell>
                     </Table.Row>
                     ))}
                 </Table.Body>
@@ -52,7 +57,8 @@ export default function TablePersons({persons}: Props) {
                         <Table.Cell  textAlign="end">{formatCurrency(incomes)}</Table.Cell>
                         <Table.Cell  textAlign="end">{formatCurrency(expenses)}</Table.Cell>
                         <Table.Cell  textAlign="end">{formatCurrency(balance)}</Table.Cell>
-                        </Table.Row>
+                        <Table.Cell  maxWidth="fit-content"></Table.Cell>
+                    </Table.Row>
                 </Table.Footer>
             </Table.Root>
         </>

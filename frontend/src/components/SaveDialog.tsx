@@ -1,36 +1,25 @@
-import { Button } from "@chakra-ui/react"
+import { Button, DialogHeader, DialogRootProvider, UseDialogReturn,  } from "@chakra-ui/react"
 import {
     DialogActionTrigger,
     DialogBody,
     DialogCloseTrigger,
     DialogContent,
     DialogFooter,
-    DialogHeader,
-    DialogRoot,
-    DialogTitle,
-    DialogTrigger,
   } from "@/components/ui/dialog"
 import { ReactNode } from "react"
 
 type Props = {
     handler: () => void;
-    buttonText: string;
-    title: string;
     children: ReactNode;
+    dialog: UseDialogReturn;
 }
-export default function CreateDialog({handler, buttonText, title, children}: Props) {
+export default function SaveDialog({dialog, handler, children}: Props) {
 
     return(
         <>
-         <DialogRoot size="sm">
-            <DialogTrigger asChild>
-                <Button variant="outline" size="sm">
-                    {buttonText}
-                </Button>
-            </DialogTrigger>
+         <DialogRootProvider size="sm" value={dialog}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>{title}</DialogTitle>
                 </DialogHeader>
                 <DialogBody>
                     {children}
@@ -43,7 +32,7 @@ export default function CreateDialog({handler, buttonText, title, children}: Pro
                 </DialogFooter>
                 <DialogCloseTrigger />
             </DialogContent>
-        </DialogRoot>
+        </DialogRootProvider>
         </>
     )
 }

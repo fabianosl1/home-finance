@@ -1,5 +1,5 @@
 import { TransactionResponse } from "@/types/Transaction";
-import { formatCurrency } from "../utils/Currency";
+import { formatCurrency } from "../../utils/Currency";
 import { Table } from "@chakra-ui/react";
 
 type Props = {

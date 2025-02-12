@@ -1,5 +1,5 @@
-import { Tabs, VStack } from "@chakra-ui/react";
-import TableTransactions from "./TableTransactions";
+import { Tabs } from "@chakra-ui/react";
+import TableTransactions from "./transaction/TableTransactions";
 
 import { useEffect, useState } from "react";
 import { TransactionService } from "@/services/TransactionService";
@@ -29,10 +29,7 @@ export default function Wrapper() {
                 <Person/>
             </Tabs.Content>
             <Tabs.Content value="transactions">
-            <VStack alignItems="end">
                 <TableTransactions transactions={transactions}/>
-            </VStack>
-
             </Tabs.Content>
         </Tabs.Root>
       </>
