@@ -1,23 +1,25 @@
-class ApiService {
-    private url: string = import.meta.env.VITE_API_URL
+export class ApiService {
+    private static url: string = import.meta.env.VITE_API_URL
 
-    private headers = {
+    private static headers = {
         "Content-Type": "application/json"
     }
 
-    async get<T>(path: string) {
+    private constructor() {}
+
+    static async get<T>(path: string) {
         return this.makeRequest<T>(path, "GET")
     }
 
-    async post<T>(path: string, body: Record<string, unknown>) {
+    static async post<T>(path: string, body: Record<string, unknown>) {
         return await this.makeRequest<T>(path, "POST", body)
     }
 
-    async delete(path: string) {
+    static async delete(path: string) {
         return await this.makeRequest(path, "DELETE");
     }
 
-    private async makeRequest<T>(path: string, method: string, body?: Record<string, unknown>): Promise<T> {
+    private static async makeRequest<T>(path: string, method: string, body?: Record<string, unknown>): Promise<T> {
         const config :RequestInit = {
             headers: this.headers,
             method: method
@@ -32,5 +34,3 @@ class ApiService {
         return response.json();
     }
 }
-
-export const apiService = new ApiService();

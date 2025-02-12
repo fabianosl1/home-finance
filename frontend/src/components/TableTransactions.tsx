@@ -36,7 +36,7 @@ export default function TableTransactions({transactions}: Props) {
 
                 <Table.Body>
                     {transactions.map(({id, description, type, amount}) => (
-                    <Table.Row>
+                    <Table.Row key={id}>
                         <Table.Cell>{id}</Table.Cell>
                         <Table.Cell>{description}</Table.Cell>
                         <Table.Cell>{labels[type]}</Table.Cell>

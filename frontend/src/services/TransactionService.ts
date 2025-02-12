@@ -1,10 +1,12 @@
 import { ListTransactionsResponse } from "@/types/Transaction";
-import { apiService } from "./ApiService";
+import { ApiService } from "./ApiService";
 
 export class TransactionService {
     
+    private constructor() {}
+    
     static async listAll(): Promise<ListTransactionsResponse> {
-        return await apiService.get("/transactions")
+        return await ApiService.get("/transactions")
     }
 
 }

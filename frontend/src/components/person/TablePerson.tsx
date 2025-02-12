@@ -33,25 +33,27 @@ export default function TablePersons({persons}: Props) {
 
                 <Table.Body>
                     {persons.map(({id, name, age, transactions}) => (
-                    <Table.Row>
+                    <Table.Row key={id}>
                         <Table.Cell>{id}</Table.Cell>
                         <Table.Cell>{name}</Table.Cell>
                         <Table.Cell>{age}</Table.Cell>
                         <Table.Cell  textAlign="end">{formatCurrency(transactions.incomes)}</Table.Cell>
-                        <Table.Cell  textAlign="end">{formatCurrency(-transactions.expenses)}</Table.Cell>
+                        <Table.Cell  textAlign="end">{formatCurrency(transactions.expenses)}</Table.Cell>
                         <Table.Cell  textAlign="end">{formatCurrency(transactions.balance)}</Table.Cell>
                     </Table.Row>
                     ))}
                 </Table.Body>
 
-                <Table.Footer  fontWeight="black">
+                <Table.Footer>
+                    <Table.Row fontWeight="black">
                         <Table.Cell>Total</Table.Cell>
                         <Table.Cell></Table.Cell>
                         <Table.Cell></Table.Cell>
                         <Table.Cell  textAlign="end">{formatCurrency(incomes)}</Table.Cell>
                         <Table.Cell  textAlign="end">{formatCurrency(expenses)}</Table.Cell>
                         <Table.Cell  textAlign="end">{formatCurrency(balance)}</Table.Cell>
-                    </Table.Footer>
+                        </Table.Row>
+                </Table.Footer>
             </Table.Root>
         </>
     )

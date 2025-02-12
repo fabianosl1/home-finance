@@ -12,3 +12,14 @@ export type PersonResponse = {
         balance: number;
     }
 }
+
+export type CreatePersonRequest = {
+    name: string;
+    age: number;
+}
+
+export type CreatePersonResponse = {
+    id: number;
+    name: string;
+    age: number;
+}
