@@ -4,6 +4,7 @@ import fabiano.homefinanceapi.dtos.CreatePersonRequest;
 import fabiano.homefinanceapi.dtos.CreatePersonResponse;
 import fabiano.homefinanceapi.dtos.ListPersonsResponse;
 import fabiano.homefinanceapi.services.PersonService;
+import fabiano.homefinanceapi.services.PersonTransactionsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class PersonController {
 
     private final PersonService personService;
+
+    private final PersonTransactionsService personTransactionsService;
 
     @PostMapping
     public ResponseEntity<CreatePersonResponse> create(@RequestBody CreatePersonRequest request) {
@@ -33,7 +36,7 @@ public class PersonController {
 
     @GetMapping
     public ResponseEntity<ListPersonsResponse> list() {
-        var persons = personService.listAll();
+        var persons = personTransactionsService.listAll();
         var response = new ListPersonsResponse(persons);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
