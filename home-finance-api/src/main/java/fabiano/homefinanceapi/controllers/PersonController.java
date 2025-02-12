@@ -2,6 +2,7 @@ package fabiano.homefinanceapi.controllers;
 
 import fabiano.homefinanceapi.dtos.CreatePersonRequest;
 import fabiano.homefinanceapi.dtos.CreatePersonResponse;
+import fabiano.homefinanceapi.dtos.ListPersonsResponse;
 import fabiano.homefinanceapi.entities.Person;
 import fabiano.homefinanceapi.services.PersonService;
 import lombok.RequiredArgsConstructor;
@@ -34,9 +35,10 @@ public class PersonController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Person>> list() {
+    public ResponseEntity<ListPersonsResponse> list() {
         var persons = personService.listAll();
+        var response = new ListPersonsResponse(persons);
 
-        return ResponseEntity.status(HttpStatus.OK).body(persons);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
