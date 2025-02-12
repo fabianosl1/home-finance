@@ -1,9 +1,13 @@
 package fabiano.homefinanceapi.dtos;
 
 import fabiano.homefinanceapi.entities.Person;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CreatePersonResponse {
     private long id;
 

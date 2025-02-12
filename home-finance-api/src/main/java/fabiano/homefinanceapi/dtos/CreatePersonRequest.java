@@ -1,9 +1,11 @@
 package fabiano.homefinanceapi.dtos;
 
 import fabiano.homefinanceapi.entities.Person;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class CreatePersonRequest {
     private String name;
 
