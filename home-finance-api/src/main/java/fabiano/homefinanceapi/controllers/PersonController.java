@@ -3,7 +3,6 @@ package fabiano.homefinanceapi.controllers;
 import fabiano.homefinanceapi.dtos.CreatePersonRequest;
 import fabiano.homefinanceapi.dtos.CreatePersonResponse;
 import fabiano.homefinanceapi.dtos.ListPersonsResponse;
-import fabiano.homefinanceapi.entities.Person;
 import fabiano.homefinanceapi.services.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

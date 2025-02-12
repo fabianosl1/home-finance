@@ -5,7 +5,6 @@ import lombok.Data;
 
 import java.util.List;
 
-
 @Data
 public class ListPersonsResponse {
     private List<PersonResponse> persons;
@@ -17,6 +16,7 @@ public class ListPersonsResponse {
     }
 }
 
+@Data
 class PersonResponse {
     private long id;
 
