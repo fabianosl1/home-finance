@@ -1,4 +1,5 @@
 package fabiano.homefinanceapi.services;
+
 import fabiano.homefinanceapi.dtos.PersonResponse;
 import fabiano.homefinanceapi.dtos.PersonTransactionsResponse;
 import fabiano.homefinanceapi.entities.Transaction;
@@ -9,6 +10,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * Esse serviço existe para evitar dependencia circular entre PersonService e TransactionService.
+ */
 @Service
 @RequiredArgsConstructor
 public class PersonTransactionsService {
