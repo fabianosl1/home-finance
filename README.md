@@ -12,6 +12,8 @@ O backend é uma API rest em java com Spring boot, Spring Data JPA e Spring Web.
 
 - Implementar autenticação e autorização para os usuarios.
 
+- CI/CD
+
 ## Deploy:
 
 Toda a aplicação está na plataforma [Render](https://render.com/) (Banco de dados, Api e o app).
@@ -55,9 +57,6 @@ npm install && npm run dev
 ## Testes:
 
 A API possui testes de integração que verificam os principais fluxos.
-
-> [!TIP]
-> O banco de dados deve estar ligado.
 
 ## Stack:
 
