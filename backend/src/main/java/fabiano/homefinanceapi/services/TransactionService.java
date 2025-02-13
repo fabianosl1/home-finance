@@ -27,8 +27,6 @@ public class TransactionService {
     public final static int MIN_AGE = 18;
 
     public Transaction create(long personId, CreateTransactionRequest createTransactionRequest) {
-        validateTransaction(createTransactionRequest);
-
         var person = this.personService.findById(personId);
 
         validateAge(createTransactionRequest.getType(), person);
@@ -41,16 +39,6 @@ public class TransactionService {
     private static void validateAge(TransactionType type, Person person) {
         if (TransactionType.INCOME.equals(type) && person.getAge() < MIN_AGE) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Person age must be greater than 18");
-        }
-    }
-
-    private static void validateTransaction(CreateTransactionRequest createTransactionRequest) {
-        if (createTransactionRequest.getAmount() < 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Amount must be greater than 0");
-        }
-
-        if (createTransactionRequest.getDescription() == null || createTransactionRequest.getDescription().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Description cannot be empty");
         }
     }
 

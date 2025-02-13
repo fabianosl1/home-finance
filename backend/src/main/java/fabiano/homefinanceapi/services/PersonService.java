@@ -19,20 +19,8 @@ public class PersonService {
     private final PersonRepository personRepository;
 
     public Person create(CreatePersonRequest createPersonRequest) {
-        validate(createPersonRequest);
-
         var person = createPersonRequest.makePerson();
         return personRepository.save(person);
-    }
-
-    private static void validate(CreatePersonRequest createPersonRequest) {
-        if (createPersonRequest.getName() == null || createPersonRequest.getName().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name cannot be empty");
-        }
-
-        if (createPersonRequest.getAge() < 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Age cannot be negative");
-        }
     }
 
     public Person findById(Long id) {
