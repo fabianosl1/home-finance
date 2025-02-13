@@ -24,12 +24,29 @@ Toda a aplicação está na plataforma [Render](https://render.com/) (Banco de d
 
 ## Dev:
 
-> http://localhost:3000
+- frontend: http://localhost:5173
+- backend: http://localhost:8080
 
 ```shell
 # requisitos: Docker e Node.js
 docker compose up -d
 
+cd frontend
+
+npm install && npm run dev
+```
+
+ou
+
+```shell
+# requisitos: Docker, Node.js e java 17
+docker compose up -d database
+
+cd backend
+
+./gradlew bootRun
+
+# outro terminal
 cd frontend
 
 npm install && npm run dev
