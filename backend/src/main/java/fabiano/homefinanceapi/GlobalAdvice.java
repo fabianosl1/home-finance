@@ -46,7 +46,7 @@ public class GlobalAdvice {
 
         var response = makeErrorResponse(message);
 
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @ExceptionHandler(NotFoundException.class)
