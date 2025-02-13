@@ -1,4 +1,4 @@
-import { PersonResponse } from "@/types/Person";
+import { Amounts, PersonAmountResponse } from "@/types/Person";
 import { formatCurrency } from "@/utils/Currency";
 import { Table, useDialog } from "@chakra-ui/react";
 import PersonActionMenu from "./PersonActionMenu";
@@ -8,10 +8,11 @@ import { PersonService } from "@/services/PersonService";
 import { useState } from "react";
 
 type Props = {
-    persons: PersonResponse[]
+    persons: PersonAmountResponse[]
+    amounts: Amounts
 }
 
-export default function TablePersons({persons}: Props) {
+export default function TablePersons({persons, amounts}: Props) {
     const {openDialog} = useTransaction()
     const deleteDialog = useDialog()
     const [personToDelete, setPersonToDelete] = useState<number|null>(null)
@@ -23,19 +24,6 @@ export default function TablePersons({persons}: Props) {
             setPersonToDelete(null)
         }
     }
-    
-    /*
-     * considerei em calcular esses valores no servidor também mas acabei optando por fazer dessa maneira
-    */
-    let incomes = 0;
-    let expenses = 0;
-
-    for (const person of persons) {
-        incomes += person.transactions.incomes;
-        expenses += person.transactions.expenses;
-    }
-
-    const balance = incomes - expenses;
     
     return(
         <>  
@@ -54,14 +42,14 @@ export default function TablePersons({persons}: Props) {
                 </Table.Header>
 
                 <Table.Body>
-                    {persons.map(({id, name, age, transactions}) => (
+                    {persons.map(({id, name, age, amounts}) => (
                     <Table.Row key={id}>
                         <Table.Cell>{id}</Table.Cell>
                         <Table.Cell>{name}</Table.Cell>
                         <Table.Cell>{age}</Table.Cell>
-                        <Table.Cell  textAlign="end">{formatCurrency(transactions.incomes)}</Table.Cell>
-                        <Table.Cell  textAlign="end">{formatCurrency(transactions.expenses)}</Table.Cell>
-                        <Table.Cell  textAlign="end">{formatCurrency(transactions.balance)}</Table.Cell>
+                        <Table.Cell  textAlign="end">{formatCurrency(amounts.incomes)}</Table.Cell>
+                        <Table.Cell  textAlign="end">{formatCurrency(amounts.expenses)}</Table.Cell>
+                        <Table.Cell  textAlign="end">{formatCurrency(amounts.balance)}</Table.Cell>
                         <Table.Cell  textAlign="end"  maxWidth="fit-content">
                             <PersonActionMenu 
                                 handleAddTransaction={() => openDialog(id)} 
@@ -80,9 +68,9 @@ export default function TablePersons({persons}: Props) {
                         <Table.Cell>Total</Table.Cell>
                         <Table.Cell></Table.Cell>
                         <Table.Cell></Table.Cell>
-                        <Table.Cell  textAlign="end">{formatCurrency(incomes)}</Table.Cell>
-                        <Table.Cell  textAlign="end">{formatCurrency(expenses)}</Table.Cell>
-                        <Table.Cell  textAlign="end">{formatCurrency(balance)}</Table.Cell>
+                        <Table.Cell  textAlign="end">{formatCurrency(amounts.incomes)}</Table.Cell>
+                        <Table.Cell  textAlign="end">{formatCurrency(amounts.expenses)}</Table.Cell>
+                        <Table.Cell  textAlign="end">{formatCurrency(amounts.balance)}</Table.Cell>
                         <Table.Cell  maxWidth="fit-content"></Table.Cell>
                     </Table.Row>
                 </Table.Footer>

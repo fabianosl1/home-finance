@@ -1,8 +1,16 @@
 ## Introdução:
 
-Aplicação web para gerenciar as finanças de uma casa.
+Aplicação web para gerenciar as finanças residenciais.
 
-O backend é uma API rest em java com Spring boot, Spring Data JPA e Spring Web. Já o frontend, é um SPA utilizando TypeScript com React (Vite) e Chakra UI.
+O backend é uma API rest em java com Spring boot, Spring Data JPA e Spring Web.
+Já o frontend, é um SPA utilizando TypeScript com React (Vite) e Chakra UI.
+
+## Desenvolvimento:
+
+Utilizei Java com Spring pois é a stack que tenho mais facilidade em trabalhar,
+no front optei por utilizar chakra para ganhar agilidade no desenvolvimento da interface.
+
+Utilzei Docker para chegar o mais proximo possivel do amibente de produção (Render)
 
 ## Melhorias:
 
@@ -75,6 +83,7 @@ A API possui testes de integração que verificam os principais fluxos.
 ###### tests
 
 - JUnit5
+- H2 Database
 
 ###### ambiente
 

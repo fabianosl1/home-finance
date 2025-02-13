@@ -6,11 +6,21 @@ export type PersonResponse = {
     id: number;
     name: string;
     age: number;
-    transactions: {
-        incomes: number;
-        expenses: number;
-        balance: number;
-    }
+}
+
+export type ListPersonsAmountsResponse = {
+    persons: PersonAmountResponse[];
+    amounts: Amounts
+}
+
+export type PersonAmountResponse = PersonResponse & {
+    amounts: Amounts
+}
+
+export type Amounts = {
+    expenses: number;
+    incomes: number;
+    balance: number;
 }
 
 export type CreatePersonRequest = {

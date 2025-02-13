@@ -2,10 +2,13 @@ package fabiano.homefinanceapi.controllers;
 
 import fabiano.homefinanceapi.dtos.CreatePersonRequest;
 import fabiano.homefinanceapi.dtos.CreatePersonResponse;
+import fabiano.homefinanceapi.dtos.ListPersonsAmountResponse;
 import fabiano.homefinanceapi.dtos.ListPersonsResponse;
 import fabiano.homefinanceapi.services.PersonService;
 import fabiano.homefinanceapi.services.PersonTransactionsService;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,8 +41,22 @@ public class PersonController {
 
     @GetMapping
     public ResponseEntity<ListPersonsResponse> list() {
-        var persons = personTransactionsService.listAll();
+        var persons = personService.listAll();
         var response = new ListPersonsResponse(persons);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/amounts")
+    public ResponseEntity<ListPersonsAmountResponse> personTransactions() {
+        var persons = personService.listAll();
+
+        var amountsMap = personTransactionsService.getAmountsMap();
+        var amounts = List.copyOf(amountsMap.values());
+
+        var totalAmounts = personTransactionsService.calculateAmounts(amounts);
+
+        var response = new ListPersonsAmountResponse(persons, amountsMap, totalAmounts);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

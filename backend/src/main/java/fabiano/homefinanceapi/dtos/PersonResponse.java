@@ -13,11 +13,7 @@ public class PersonResponse {
 
     private long age;
 
-    private PersonTransactionsResponse transactions;
-
-    public PersonResponse(Person person, PersonTransactionsResponse transactions) {
-        this.transactions = transactions;
-
+    public PersonResponse(Person person) {
         this.id = person.getId();
         this.name = person.getName();
         this.age = person.getAge();

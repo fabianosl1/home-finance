@@ -1,59 +1,55 @@
 package fabiano.homefinanceapi.services;
 
-import fabiano.homefinanceapi.dtos.PersonResponse;
-import fabiano.homefinanceapi.dtos.PersonTransactionsResponse;
-import fabiano.homefinanceapi.entities.Transaction;
-import fabiano.homefinanceapi.enums.TransactionType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import fabiano.homefinanceapi.entities.TransactionsAmounts;
+import fabiano.homefinanceapi.enums.TransactionType;
 
 /*
  * Esse serviço existe para evitar dependencia circular entre PersonService e TransactionService.
  */
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class PersonTransactionsService {
-
-    private final PersonService personService;
 
     private final TransactionService transactionService;
 
-    public List<PersonResponse> listAll() {
-        var persons = personService.listAll();
+    public Map<Long, TransactionsAmounts> getAmountsMap() {
+        Map<Long, TransactionsAmounts> map = new HashMap<>();
+
         var transactions = transactionService.listAll();
 
-        var response = new ArrayList<PersonResponse>();
-
-        for (var person : persons) {
-            var filtered = transactions.stream()
-                    .filter(transaction -> transaction.getPerson().getId() == person.getId())
-                    .toList();
-
-            var values = calculate(filtered);
-
-            response.add(new PersonResponse(person, values));
-        }
-
-        return response;
-    }
-
-    private static PersonTransactionsResponse calculate(List<Transaction> transactions) {
-        double incomes = 0;
-        double expenses = 0;
-
         for (var transaction : transactions) {
-            if (TransactionType.EXPENSE.equals(transaction.getType())) {
-                expenses += transaction.getAmount();
-            } else {
-                incomes += transaction.getAmount();
+            long key = transaction.getPerson().getId();
+            var balance = map.getOrDefault(key, new TransactionsAmounts());
+
+            try {
+                balance.add(transaction);
+                map.put(key, balance);
+            } catch (IllegalStateException exception) {
+                log.info(exception.getMessage() + " transaction id: " + transaction.getId());
             }
         }
 
-        double balance = incomes - expenses;
+        return map;
+    }
 
-        return new PersonTransactionsResponse(expenses, incomes, balance);
+    public TransactionsAmounts calculateAmounts(List<TransactionsAmounts> amounts) {
+        var amount = new TransactionsAmounts();
+
+        for (var balance : amounts) {
+            amount.add(balance.getIncomes(), TransactionType.INCOME);
+            amount.add(balance.getExpenses(), TransactionType.EXPENSE);
+        }
+
+        return amount;
     }
 }
