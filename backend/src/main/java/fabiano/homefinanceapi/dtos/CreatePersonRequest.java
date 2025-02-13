@@ -15,7 +15,7 @@ public class CreatePersonRequest {
     private String name;
 
     @NotNull(message = "A idade é um campo obrigatorio")
-    @Min(value = 0, message = "A indade não pode ser negativa")
+    @Min(value = 0, message = "A idade não pode ser negativa")
     private int age;
 
     public Person makePerson() {

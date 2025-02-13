@@ -6,6 +6,7 @@ import { Field } from "../ui/field";
 import SaveDialog from "../SaveDialog";
 import { CreatePersonRequest } from "@/types/Person";
 import { PersonService } from "@/services/PersonService";
+import { errorFeedback } from "@/utils/errorFeedback";
 
 const defaultValues: CreatePersonRequest = {
     age: 23,
@@ -19,11 +20,13 @@ export default function AddPersonForm() {
     })
 
     const handler = async (data: CreatePersonRequest) => {
-        await PersonService.save(data)
-        reset(defaultValues)
-        dialog.setOpen(false)
-        
+        await errorFeedback("Pessoa registrada", "success", async () => {
+            await PersonService.save(data)
+            reset(defaultValues)
+            dialog.setOpen(false)
+        })
     }
+
     return(
         <>
             <Button onClick={() => dialog.setOpen(true)} variant="outline">

@@ -18,9 +18,13 @@ export default function SaveDialog({dialog, callback, children}: Props) {
 
     // tentando evitar duplicidade de registros
     const handle = async () => {
-        setDisabled(true)                        
-        await callback()                
-        setDisabled(false)                    
+        setDisabled(true)
+        
+        try {                        
+            await callback()
+        } finally {      
+            setDisabled(false)
+        }
     }
     
     return(

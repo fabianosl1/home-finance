@@ -8,6 +8,7 @@ import {
     DialogTitle, 
 } from "../ui/dialog";
 import { useState } from "react";
+import { errorFeedback } from "@/utils/errorFeedback";
 
 type Props = {
     dialog: UseDialogReturn;
@@ -17,9 +18,15 @@ export default function DeleteDialog({dialog, callback}: Props) {
     const [disabled, setDisabled] = useState(false)
 
     const handle = async () => {
-      setDisabled(true)
-      await callback()
-      setDisabled(false)
+      await errorFeedback("Pessoa removida", "info", async () => {
+          setDisabled(true)
+          try {
+          await callback()
+          } finally {
+            setDisabled(false)
+          }
+          
+      })
     }
 
     return (

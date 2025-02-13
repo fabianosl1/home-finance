@@ -1,3 +1,5 @@
+import { ApiException } from "@/exceptions/ApiException";
+
 export class ApiService {
     private static url: string = import.meta.env.VITE_API_URL
 
@@ -32,8 +34,9 @@ export class ApiService {
         const response = await fetch(this.url + path, config);
 
         if (response.status >= 400) {
+            
             const json = await response.json()
-            throw new Error(json.message ?? "Algo deu errado")
+            throw new ApiException(json.erros)
         }
 
        if (response.status !== 204)

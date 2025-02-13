@@ -8,6 +8,7 @@ import { TransactionService } from "@/services/TransactionService";
 import { SelectContent, SelectItem, SelectRoot, SelectTrigger, SelectValueText } from "../ui/select";
 import { createListCollection, Input, VStack } from "@chakra-ui/react";
 import { NumberInputField, NumberInputRoot } from "../ui/number-input";
+import { errorFeedback } from "@/utils/errorFeedback";
 
 const defaultValue: CreateTransactionRequest = {
     amount: 0,
@@ -33,10 +34,12 @@ export default function AddTransactionForm() {
         if (!personId) {
             return;
         }
-
-        await TransactionService.create(personId,data)
-        reset(defaultValue)
-        dialog.setOpen(false)
+        await errorFeedback("Transação adicionada", "success", async () => {
+            await TransactionService.create(personId,data)
+            reset(defaultValue)
+            dialog.setOpen(false)
+        })
+        
     }
 
     return(
@@ -68,8 +71,9 @@ export default function AddTransactionForm() {
                         <Controller 
                             name="description"
                             control={control}
-                            render={({field: {onChange}}) => (
-                                <Input 
+                            render={({field: {onChange, value}}) => (
+                                <Input
+                                    defaultValue={value}
                                     placeholder="Descrição"                     
                                     onChange={onChange}
                                 />
@@ -81,8 +85,11 @@ export default function AddTransactionForm() {
                         <Controller
                             name="type"
                             control={control}
-                            render={({field: {onChange}}) => (
-                                <SelectRoot collection={transactionsType} onValueChange={e => onChange(e.value[0])}>
+                            render={({field: {onChange, value}}) => (
+                                <SelectRoot 
+                                    collection={transactionsType} 
+                                    defaultValue={[value]}
+                                    onValueChange={e => onChange(e.value[0])}>
                                     <SelectTrigger>
                                         <SelectValueText placeholder="Transação" />
                                     </SelectTrigger>
