@@ -4,6 +4,14 @@ Aplicação web para gerenciar as finanças de uma casa.
 
 O backend é uma API rest em java com Spring boot, Spring Data JPA e Spring Web. Já o frontend, é um SPA utilizando TypeScript com React (Vite) e Chakra UI.
 
+## Melhorias:
+
+- Adição de cache no calculo dos custos e receitas por pessoal e nos totais.
+
+- Realizar buscas paginadas.
+
+- Implementar autenticação e autorização para os usuarios.
+
 ## Deploy:
 
 Toda a aplicação está na plataforma [Render](https://render.com/) (Banco de dados, Api e o app).
@@ -19,9 +27,11 @@ Toda a aplicação está na plataforma [Render](https://render.com/) (Banco de d
 > http://localhost:3000
 
 ```shell
-# requisitos: Docker
+# requisitos: Docker e Node.js
 docker compose up -d
+
 cd frontend
+
 npm install && npm run dev
 ```
 
@@ -44,6 +54,7 @@ A API possui testes de integração que verificam os principais fluxos.
 - Spring Boot
 - Spring Data JPA
 - Spring Web
+- Spring Validation
 
 ###### tests
 

@@ -3,13 +3,15 @@ import { ApiException } from "@/exceptions/ApiException"
 
 type Types = "success" | "info" | "warning" | "error"
 
-export async function errorFeedback(title: string, type: Types, fun: () => Promise<void>) {
+export async function errorFeedback(fun: () => Promise<void>, toast?: {title: string, type: Types}) {
         try {
             await fun()
+            if (toast) {
             toaster.create({
-                title: title,
-                type: type
+                title: toast.title,
+                type: toast.type
             })
+        }
         } catch (err) {
             if (err instanceof ApiException) {
                 for (const message of err.messages) {

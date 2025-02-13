@@ -18,15 +18,14 @@ export default function DeleteDialog({dialog, callback}: Props) {
     const [disabled, setDisabled] = useState(false)
 
     const handle = async () => {
-      await errorFeedback("Pessoa removida", "info", async () => {
+      await errorFeedback(async () => {
           setDisabled(true)
           try {
           await callback()
           } finally {
             setDisabled(false)
-          }
-          
-      })
+          }        
+      }, {title: "Pessoa removida", type: "info"})
     }
 
     return (

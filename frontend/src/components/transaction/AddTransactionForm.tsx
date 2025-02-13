@@ -34,11 +34,11 @@ export default function AddTransactionForm() {
         if (!personId) {
             return;
         }
-        await errorFeedback("Transação adicionada", "success", async () => {
+        await errorFeedback(async () => {
             await TransactionService.create(personId,data)
             reset(defaultValue)
             dialog.setOpen(false)
-        })
+        }, { title: "Transação adicionada", type: "success" })
         
     }
 

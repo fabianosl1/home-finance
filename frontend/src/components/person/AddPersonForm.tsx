@@ -20,11 +20,11 @@ export default function AddPersonForm() {
     })
 
     const handler = async (data: CreatePersonRequest) => {
-        await errorFeedback("Pessoa registrada", "success", async () => {
+        await errorFeedback(async () => {
             await PersonService.save(data)
             reset(defaultValues)
             dialog.setOpen(false)
-        })
+        }, { title: "Pessoa registrada", type: "success" })
     }
 
     return(

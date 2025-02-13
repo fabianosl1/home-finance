@@ -3,13 +3,22 @@ import { TransactionResponse } from "@/types/Transaction"
 import { useEffect, useState } from "react"
 import TableTransactions from "./TableTransactions"
 import { Button, VStack } from "@chakra-ui/react"
+import { errorFeedback } from "@/utils/errorFeedback"
 
 export default function Transaction() {
     const [transactions, setTransactions] = useState<TransactionResponse[]>([])
-
+    const [loading, setLoading] = useState(false)
+    
     const fetch = async () => {
-        const {transactions} = await TransactionService.listAll()
-        setTransactions(transactions)
+        try {
+            setLoading(true)
+            await errorFeedback(async () => { 
+                const {transactions} = await TransactionService.listAll()
+                setTransactions(transactions)
+            })
+        } finally {
+            setLoading(false)
+        }
     }
 
     useEffect(()=> {
@@ -19,7 +28,7 @@ export default function Transaction() {
     return(
         <>
             <VStack alignItems="end" gap={4}>
-                <Button onClick={fetch}>Atualizar</Button>
+                <Button onClick={fetch} loading={loading}>Atualizar</Button>
                 <TableTransactions transactions={transactions}/>
             </VStack>
         </>
