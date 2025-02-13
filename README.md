@@ -10,7 +10,10 @@ Já o frontend, é um SPA utilizando TypeScript com React (Vite) e Chakra UI.
 Utilizei Java com Spring pois é a stack que tenho mais facilidade em trabalhar,
 no front optei por utilizar chakra para ganhar agilidade no desenvolvimento da interface.
 
-Utilzei Docker para chegar o mais proximo possivel do amibente de produção (Render)
+Utilzei Docker para chegar o mais proximo possivel do amibente de produção (Render).
+
+Procurei manter uma separação clara entre os componentes da API (Dtos, Services e entities) e
+evitar regras de negocio no frontend.
 
 ## Melhorias:
 
@@ -65,6 +68,13 @@ npm install && npm run dev
 ## Testes:
 
 A API possui testes de integração que verificam os principais fluxos.
+
+```shell
+# requisitos: java 17
+cd backend
+
+./gradlew test
+```
 
 ## Stack:
 
