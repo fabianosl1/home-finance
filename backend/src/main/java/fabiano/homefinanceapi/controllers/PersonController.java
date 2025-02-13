@@ -5,7 +5,7 @@ import fabiano.homefinanceapi.dtos.CreatePersonResponse;
 import fabiano.homefinanceapi.dtos.ListPersonsAmountResponse;
 import fabiano.homefinanceapi.dtos.ListPersonsResponse;
 import fabiano.homefinanceapi.services.PersonService;
-import fabiano.homefinanceapi.services.PersonTransactionsService;
+import fabiano.homefinanceapi.services.AmountsService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class PersonController {
 
     private final PersonService personService;
 
-    private final PersonTransactionsService personTransactionsService;
+    private final AmountsService amountsService;
 
     @PostMapping
     public ResponseEntity<CreatePersonResponse> create(@Validated @RequestBody CreatePersonRequest request) {
@@ -51,10 +51,10 @@ public class PersonController {
     public ResponseEntity<ListPersonsAmountResponse> personTransactions() {
         var persons = personService.listAll();
 
-        var amountsMap = personTransactionsService.getAmountsMap();
+        var amountsMap = amountsService.getAmountsMap();
         var amounts = List.copyOf(amountsMap.values());
 
-        var totalAmounts = personTransactionsService.calculateAmounts(amounts);
+        var totalAmounts = amountsService.calculateAmounts(amounts);
 
         var response = new ListPersonsAmountResponse(persons, amountsMap, totalAmounts);
 

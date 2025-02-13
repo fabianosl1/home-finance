@@ -13,12 +13,17 @@ import fabiano.homefinanceapi.entities.TransactionsAmounts;
 import fabiano.homefinanceapi.enums.TransactionType;
 
 /*
- * Esse serviço existe para evitar dependencia circular entre PersonService e TransactionService.
+ * Serviço responsavel por calcular os totais das transações
+ * 
+ * minha primeira implementação era O(n^2) pois para cada person ele percorria o array de transactions.
+ * 
+ * - Acredito que essa seja mais performatica pois gera um hashMap dos valores (personId : valores).
+ * - O calculo total tbm é gerado na API, sendo possivel adicionar cache.
  */
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class PersonTransactionsService {
+public class AmountsService {
 
     private final TransactionService transactionService;
 
