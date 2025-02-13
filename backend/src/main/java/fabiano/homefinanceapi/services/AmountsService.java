@@ -40,6 +40,7 @@ public class AmountsService {
                 balance.add(transaction);
                 map.put(key, balance);
             } catch (IllegalStateException exception) {
+                // Log para identificar possiveis inconsistencias no banco de dados
                 log.info(exception.getMessage() + " transaction id: " + transaction.getId());
             }
         }
