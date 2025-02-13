@@ -41,7 +41,7 @@ export default function AddTransactionForm() {
 
     return(
         <>
-            <SaveDialog handler={handleSubmit(handler)} dialog={dialog}>
+            <SaveDialog callback={handleSubmit(handler)} dialog={dialog}>
                 <VStack>
                     <Field label="Valor">
                     <Controller 

@@ -6,15 +6,23 @@ import {
     DialogContent,
     DialogFooter,
   } from "@/components/ui/dialog"
-import { ReactNode } from "react"
+import { ReactNode, useState } from "react"
 
 type Props = {
-    handler: () => void;
+    callback: () => Promise<void>;
     children: ReactNode;
     dialog: UseDialogReturn;
 }
-export default function SaveDialog({dialog, handler, children}: Props) {
+export default function SaveDialog({dialog, callback, children}: Props) {
+    const [disabled, setDisabled] = useState(false)
 
+    // tentando evitar duplicidade de registros
+    const handle = async () => {
+        setDisabled(true)                        
+        await callback()                
+        setDisabled(false)                    
+    }
+    
     return(
         <>
          <DialogRootProvider size="sm" value={dialog}>
@@ -28,7 +36,7 @@ export default function SaveDialog({dialog, handler, children}: Props) {
                     <DialogActionTrigger asChild>
                         <Button variant="outline">Cancelar</Button>
                     </DialogActionTrigger>
-                    <Button onClick={() => handler()}>Salvar</Button>
+                    <Button onClick={handle} disabled={disabled}>Salvar</Button>
                 </DialogFooter>
                 <DialogCloseTrigger />
             </DialogContent>

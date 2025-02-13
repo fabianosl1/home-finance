@@ -23,7 +23,10 @@ export default function TablePersons({persons}: Props) {
             setPersonToDelete(null)
         }
     }
-
+    
+    /*
+     * considerei em calcular esses valores no servidor também mas acabei optando por fazer dessa maneira
+    */
     let incomes = 0;
     let expenses = 0;
 

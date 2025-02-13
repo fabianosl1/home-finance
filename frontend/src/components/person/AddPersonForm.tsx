@@ -31,8 +31,8 @@ export default function AddPersonForm() {
             </Button>
             <SaveDialog 
                 dialog={dialog}
-                handler={handleSubmit(handler)}
-            >
+                callback={handleSubmit(handler)}
+            >        
             <VStack gap={6}>
                 <Field label="Nome">
                     <Controller 

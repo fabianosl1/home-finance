@@ -7,12 +7,21 @@ import {
     DialogHeader,
     DialogTitle, 
 } from "../ui/dialog";
+import { useState } from "react";
 
 type Props = {
     dialog: UseDialogReturn;
-    callback: () => void;
+    callback: () => Promise<void>;
 }
 export default function DeleteDialog({dialog, callback}: Props) {
+    const [disabled, setDisabled] = useState(false)
+
+    const handle = async () => {
+      setDisabled(true)
+      await callback()
+      setDisabled(false)
+    }
+
     return (
         <DialogRootProvider value={dialog} >
         <DialogContent>
@@ -23,7 +32,7 @@ export default function DeleteDialog({dialog, callback}: Props) {
             <DialogActionTrigger asChild>
               <Button variant="outline">Cancel</Button>
             </DialogActionTrigger>
-            <Button colorPalette="red" onClick={callback}>Confirmar</Button>
+            <Button colorPalette="red" onClick={handle} disabled={disabled}>Confirmar</Button>
           </DialogFooter>
           <DialogCloseTrigger />
         </DialogContent>
