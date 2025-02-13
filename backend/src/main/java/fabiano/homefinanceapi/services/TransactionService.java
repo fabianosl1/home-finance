@@ -4,20 +4,16 @@ import fabiano.homefinanceapi.dtos.CreateTransactionRequest;
 import fabiano.homefinanceapi.entities.Person;
 import fabiano.homefinanceapi.entities.Transaction;
 import fabiano.homefinanceapi.enums.TransactionType;
+import fabiano.homefinanceapi.exceptions.DomainExpcetion;
 import fabiano.homefinanceapi.repositories.TransactionRepository;
 import lombok.RequiredArgsConstructor;
-
-import lombok.extern.log4j.Log4j2;
 import org.springframework.data.util.Streamable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Log4j2
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
@@ -38,13 +34,12 @@ public class TransactionService {
 
     private static void validateAge(TransactionType type, Person person) {
         if (TransactionType.INCOME.equals(type) && person.getAge() < MIN_AGE) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Person age must be greater than 18");
+            throw new DomainExpcetion("Apenas maiores de 18 podem ter renda");
         }
     }
 
     public List<Transaction> listAll() {
         var transactions = this.transactionRepository.findAll();
-        log.info(transactions);
         return Streamable.of(transactions).toList();
     }
 }

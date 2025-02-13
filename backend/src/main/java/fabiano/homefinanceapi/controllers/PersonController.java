@@ -6,6 +6,7 @@ import fabiano.homefinanceapi.dtos.ListPersonsResponse;
 import fabiano.homefinanceapi.services.PersonService;
 import fabiano.homefinanceapi.services.PersonTransactionsService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

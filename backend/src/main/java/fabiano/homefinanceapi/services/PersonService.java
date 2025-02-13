@@ -2,13 +2,12 @@ package fabiano.homefinanceapi.services;
 
 import fabiano.homefinanceapi.dtos.CreatePersonRequest;
 import fabiano.homefinanceapi.entities.Person;
+import fabiano.homefinanceapi.exceptions.NotFoundException;
 import fabiano.homefinanceapi.repositories.PersonRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.util.Streamable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class PersonService {
         var person = personRepository.findById(id);
 
         if (person.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Person not found");
+            throw new NotFoundException("pessoa não encontrada");
         }
 
         return person.get();
