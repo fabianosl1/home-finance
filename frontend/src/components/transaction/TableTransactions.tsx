@@ -12,17 +12,8 @@ const labels = {
 }
 
 export default function TableTransactions({transactions}: Props) {
-    let balance = 0;
 
-    for (const transaction of transactions) {
-        if (transaction.type === "EXPENSE") {
-            balance -= transaction.amount
-        } else {
-            balance += transaction.amount
-        }
-    }
-
-    return(
+  return(
         <>
             <Table.Root variant="outline">
                 <Table.Header>
@@ -40,16 +31,16 @@ export default function TableTransactions({transactions}: Props) {
                         <Table.Cell>{id}</Table.Cell>
                         <Table.Cell>{description}</Table.Cell>
                         <Table.Cell>{labels[type]}</Table.Cell>
-                        <Table.Cell  textAlign="end">{formatCurrency(type === "EXPENSE" ? -amount : amount)}</Table.Cell>
+                        <Table.Cell  textAlign="end">{formatCurrency(amount)}</Table.Cell>
                     </Table.Row>
                     ))}
                 </Table.Body>
                 <Table.Footer>
                 <Table.Row fontWeight="black">
-                        <Table.Cell>Total</Table.Cell>
                         <Table.Cell></Table.Cell>
                         <Table.Cell></Table.Cell>
-                        <Table.Cell  textAlign="end">{formatCurrency(balance)}</Table.Cell>
+                        <Table.Cell>Count</Table.Cell>
+                        <Table.Cell  textAlign="right">{transactions.length}</Table.Cell>
                     </Table.Row>
                 </Table.Footer>
             </Table.Root>
