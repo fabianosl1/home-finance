@@ -35,14 +35,6 @@ export default function TableTransactions({transactions}: Props) {
                     </Table.Row>
                     ))}
                 </Table.Body>
-                <Table.Footer>
-                <Table.Row fontWeight="black">
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell>Count</Table.Cell>
-                        <Table.Cell  textAlign="right">{transactions.length}</Table.Cell>
-                    </Table.Row>
-                </Table.Footer>
             </Table.Root>
         </>
     )
