@@ -21,7 +21,7 @@ export default function TableTransactions({transactions}: Props) {
                         <Table.ColumnHeader>Id</Table.ColumnHeader>
                         <Table.ColumnHeader>Descrição</Table.ColumnHeader>
                         <Table.ColumnHeader>Tipo</Table.ColumnHeader>
-                        <Table.ColumnHeader textAlign="end">Preço</Table.ColumnHeader>
+                        <Table.ColumnHeader textAlign="end">Valor</Table.ColumnHeader>
                     </Table.Row>
                 </Table.Header>
 
