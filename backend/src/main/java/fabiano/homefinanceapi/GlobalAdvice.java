@@ -12,7 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import fabiano.homefinanceapi.exceptions.DomainExpcetion;
+import fabiano.homefinanceapi.exceptions.DomainException;
 import fabiano.homefinanceapi.exceptions.NotFoundException;
 
 @RestControllerAdvice
@@ -40,8 +40,8 @@ public class GlobalAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
-    @ExceptionHandler(DomainExpcetion.class)
-    public ResponseEntity<Map<String, List<String>>> handleDomainException(DomainExpcetion exception) {
+    @ExceptionHandler(DomainException.class)
+    public ResponseEntity<Map<String, List<String>>> handleDomainException(DomainException exception) {
         var message = List.of(exception.getMessage());
 
         var response = makeErrorResponse(message);
@@ -58,10 +58,10 @@ public class GlobalAdvice {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
-    private Map<String, List<String>> makeErrorResponse(List<String> erros) {
-        var errors = new HashMap<String, List<String>>();
-        errors.put("erros", erros);
+    private Map<String, List<String>> makeErrorResponse(List<String> errors) {
+        var errorsMap = new HashMap<String, List<String>>();
+        errorsMap.put("errors", errors);
 
-        return errors;
+        return errorsMap;
     }
 }

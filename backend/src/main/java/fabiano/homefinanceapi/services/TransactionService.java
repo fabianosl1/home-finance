@@ -4,7 +4,7 @@ import fabiano.homefinanceapi.dtos.CreateTransactionRequest;
 import fabiano.homefinanceapi.entities.Person;
 import fabiano.homefinanceapi.entities.Transaction;
 import fabiano.homefinanceapi.enums.TransactionType;
-import fabiano.homefinanceapi.exceptions.DomainExpcetion;
+import fabiano.homefinanceapi.exceptions.DomainException;
 import fabiano.homefinanceapi.repositories.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Streamable;
@@ -34,7 +34,7 @@ public class TransactionService {
 
     private static void validateAge(TransactionType type, Person person) {
         if (TransactionType.INCOME.equals(type) && person.getAge() < MIN_AGE) {
-            throw new DomainExpcetion("Apenas maiores de 18 podem ter renda");
+            throw new DomainException("Apenas maiores de 18 podem ter renda");
         }
     }
 
