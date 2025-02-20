@@ -1,10 +1,10 @@
 package fabiano.homefinanceapi;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import fabiano.homefinanceapi.dtos.ErrorResponse;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,17 +16,20 @@ import fabiano.homefinanceapi.exceptions.DomainException;
 import fabiano.homefinanceapi.exceptions.NotFoundException;
 
 @RestControllerAdvice
+@Log4j2
 public class GlobalAdvice {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGenericException(Exception exception) {
+        log.error(exception);
+
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.TEXT_PLAIN)
                 .body("Internal Server Error");
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, List<String>>> handleValidationException(
+    public ResponseEntity<ErrorResponse> handleValidationException(
             MethodArgumentNotValidException exception) {
 
         var messages = new ArrayList<String>();
@@ -35,33 +38,27 @@ public class GlobalAdvice {
             messages.add(error.getDefaultMessage());
         }
 
-        var response = this.makeErrorResponse(messages);
+        var response = new ErrorResponse(messages);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @ExceptionHandler(DomainException.class)
-    public ResponseEntity<Map<String, List<String>>> handleDomainException(DomainException exception) {
+    public ResponseEntity<ErrorResponse> handleDomainException(DomainException exception) {
         var message = List.of(exception.getMessage());
 
-        var response = makeErrorResponse(message);
+        var response = new ErrorResponse(message);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Map<String, List<String>>> handleNotFoundException(NotFoundException exception) {
+    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException exception) {
         var message = List.of(exception.getMessage());
 
-        var response = makeErrorResponse(message);
+        var response = new ErrorResponse(message);
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
-    private Map<String, List<String>> makeErrorResponse(List<String> errors) {
-        var errorsMap = new HashMap<String, List<String>>();
-        errorsMap.put("errors", errors);
-
-        return errorsMap;
-    }
 }
